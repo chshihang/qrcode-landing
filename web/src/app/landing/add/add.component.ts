@@ -23,6 +23,7 @@ export class AddComponent implements OnInit {
   constructor(private landingService: LandingService,
               private router: Router,
               private route: ActivatedRoute,
+              private commonValidator: CommonValidator,
               private commonService: CommonService) {
   }
 
@@ -30,7 +31,7 @@ export class AddComponent implements OnInit {
     this.formGroup.addControl(this.formKeys.name,
       new FormControl('', [Validators.required]));
     this.formGroup.addControl(this.formKeys.key,
-      new FormControl('', [Validators.required]));
+      new FormControl('', [Validators.required], this.commonValidator.landingUniqueKey()));
     this.formGroup.addControl(this.formKeys.url,
       new FormControl('', [Validators.required]));
   }
