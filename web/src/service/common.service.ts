@@ -13,6 +13,8 @@ export class CommonService {
 
   private menus = [
     {name: '首页', url: 'dashboard', icon: 'fas fa-paper-plane'} as BaseMenu,
+    {name: '着陆页管理', url: 'landingPage', icon: 'fa-solid fa-plane-arrival'} as BaseMenu,
+    {name: '系统', url: 'system', icon: 'fa-solid fa-gear'} as BaseMenu,
     {name: '个人中心', url: 'personal', icon: 'fas fa-user'} as BaseMenu,
   ];
 
