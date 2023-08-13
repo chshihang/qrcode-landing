@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: demo
   datasource:
     #    提交机器人测试，数据库
     url: "jdbc:mysql://localhost:3311/qrcodeLanding?characterEncoding=utf-8"
@@ -30,6 +30,12 @@ spring:
   # 或者自行指定其它文件位置
   datasource:
     url: jdbc:h2:~/h2-data/qrcodeLanding
+logging:
+  level:
+    com:
+      mengyunzhi:
+        qrcodeLanding: debug
+    root: info
 ---
 spring:
   config:
