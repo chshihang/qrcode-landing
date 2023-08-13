@@ -27,6 +27,22 @@ export class LandingApi implements MockApiInterface {
             } as Landing;
           });
         }
+      },
+      {
+        url: '/landing',
+        method: 'POST',
+        description: '添加Landing',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
+          return options.body as Landing;
+        }
+      },
+      {
+        url: '/landing/keyExist/(\\d+)',
+        method: 'GET',
+        description: 'key 唯一性验证',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
+          console.log('keyExist', urlMatches, options)
+        }
       }
     ]
   }
