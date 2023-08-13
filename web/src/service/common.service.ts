@@ -5,6 +5,7 @@ import {BaseMenu} from '../common/base-menu';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter} from 'rxjs/operators';
+import swal, {SweetAlertIcon, SweetAlertResult} from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -170,5 +171,30 @@ export class CommonService {
 
   error(param: () => void, s: string, 注销失败: string) {
     // todo:
+  }
+  /**
+   * 操作成功提示框
+   * @param callback    回调
+   * @param description 描述
+   * @param title       标题
+   */
+  success(callback?: () => void, description: string = '', title: string = '操作成功', options = {confirmButtonText: '确定'}): void {
+    swal.fire({
+      titleText: title,
+      text: description,
+      icon: 'success',
+      background: '#F7F8FA',
+      allowOutsideClick: false,
+      confirmButtonText: options.confirmButtonText,
+      confirmButtonColor: '#007BFF',
+      showCancelButton: false
+    }).then((result: SweetAlertResult) => {
+      if (result.value) {
+        // 执行回调
+        if (callback) {
+          callback();
+        }
+      }
+    });
   }
 }

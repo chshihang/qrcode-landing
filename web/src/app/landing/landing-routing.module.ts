@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LandingComponent} from "./landing.component";
+import {DialogEntryComponent} from "../../common/dialog-entry/dialog-entry-component";
+import {AddComponent} from "./add/add.component";
 
 const routes: Routes = [
   {
@@ -10,6 +12,10 @@ const routes: Routes = [
   {
     path: 'index',
     component: LandingComponent
+  },
+  {
+    path: 'add',
+    component: AddComponent,
   }
 ];
 

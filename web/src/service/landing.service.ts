@@ -24,4 +24,22 @@ export class LandingService {
     }
     return this.httpClient.get<Page<Landing>>('/landing/page', {params});
   }
+
+  add(landing: {name: string, key: string, url: string}): Observable<Landing> {
+    console.log('add', landing);
+    Assert.isNotNullOrUndefined(landing.name, '值错误')
+    Assert.isNotNullOrUndefined(landing.key, '值错误')
+    Assert.isNotNullOrUndefined(landing.url, '值错误')
+    return this.httpClient.post<Landing>('/landing', landing);
+  }
+
+  /**
+   *  key查找
+   *  @param key 查看key是否有相同的
+   *  @param landingId 排除Id
+   */
+  existsByKey(key: string, landingId?: number): Observable<boolean> {
+    const httpParams = new HttpParams().set('key', key);
+    return this.httpClient.get<boolean>(`/landing/keyExist/${landingId}`, {params: httpParams});
+  }
 }
