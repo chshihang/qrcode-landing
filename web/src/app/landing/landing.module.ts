@@ -4,7 +4,6 @@ import { LandingComponent } from './landing.component';
 import {LandingRoutingModule} from "./landing-routing.module";
 import {YzPageModule, YzSizeModule} from "@yunzhi/ng-common";
 import { AddComponent } from './add/add.component';
-import {DialogEntryModule} from "../../common/dialog-entry/dialog-entry.module";
 import {ReactiveFormsModule} from "@angular/forms";
 
 
@@ -19,7 +18,6 @@ import {ReactiveFormsModule} from "@angular/forms";
     LandingRoutingModule,
     YzPageModule,
     YzSizeModule,
-    DialogEntryModule,
     ReactiveFormsModule
   ]
 })
