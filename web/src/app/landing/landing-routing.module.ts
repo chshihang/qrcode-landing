@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'index',
-    component: LandingComponent
+    component: LandingComponent,
   },
   {
     path: 'add',

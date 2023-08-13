@@ -36,10 +36,11 @@ export class LandingService {
   /**
    *  key查找
    *  @param key 查看key是否有相同的
-   *  @param landingId 排除Id
+   *  @param landingId 排除Id； 如果为空，使用默认值-1，代表无参数
    */
   existsByKey(key: string, landingId?: number): Observable<boolean> {
     const httpParams = new HttpParams().set('key', key);
+    console.log('existsByKey called');
     return this.httpClient.get<boolean>(`/landing/keyExist/${landingId}`, {params: httpParams});
   }
 }

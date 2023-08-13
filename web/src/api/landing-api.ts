@@ -41,10 +41,26 @@ export class LandingApi implements MockApiInterface {
         method: 'GET',
         description: 'key 唯一性验证',
         result: (urlMatches: Array<string>, options: RequestOptions) => {
-          console.log('keyExist', urlMatches, options)
+          return this.keyExist(urlMatches, options)
+        }
+      },
+      {
+        url: '/landing/keyExist/undefined',
+        method: 'GET',
+        description: 'key 唯一性验证',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
+          return this.keyExist(urlMatches, options)
         }
       }
     ]
   }
 
+  private keyExist(urlMatches: Array<string>, options: RequestOptions) {
+    // @ts-ignore
+    const key = options.params.get('key');
+    if (key == '123') {
+      return true;
+    }
+    return false;
+  }
 }
