@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  title: 'qrcode-landing',
+  title: '二维码落地转发系统',
   apiUrl: '/api',
   color: 'darkcyan'
 };
