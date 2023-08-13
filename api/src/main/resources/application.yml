@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: ${active:dev}
   datasource:
     #    提交机器人测试，数据库
     url: "jdbc:mysql://localhost:3311/qrcodeLanding?characterEncoding=utf-8"
@@ -13,3 +15,51 @@ spring:
         dialect: "org.hibernate.dialect.MySQL57Dialect"
     hibernate:
       ddl-auto: "create-drop"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: demo # 本地测试使用
+  jpa:
+    hibernate:
+      ddl-auto: ${ddl-auto:create-drop}
+  flyway:
+    enabled: false
+  # H2数据源,请在当前用户所有文件夹下建立h2-data文件夹，并保证其可写
+  # 或者自行指定其它文件位置
+  datasource:
+    url: jdbc:h2:~/h2-data/qrcodeLanding-test
+    driver-class-name: org.h2.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: pro # 部署使用
+  jpa:
+    hibernate:
+      ddl-auto: ${ddl-auto:update}
+  flyway:
+    enabled: true
+  # 配置数据源
+  datasource:
+    url: jdbc:mysql://${datasource.url:qrcodeLanding}:${datasource.port:3306}/${datasource.dbname:qrcodeLanding}?useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: ${datasource.username:root}
+    password: ${datasource.password:root}
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    hibernate:
+      ddl-auto: ${ddl-auto:update}
+    show-sql: true
+  flyway:
+    enabled: true
+  # 配置数据源
+  datasource:
+    url: jdbc:mysql://${datasource.url:localhost}:${datasource.port:3311}/${datasource.dbname:qrcodeLanding}?useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: ${datasource.username:root}
+    password: ${datasource.password:root}
