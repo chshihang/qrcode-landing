@@ -1,0 +1,146 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG != null'
+
+stages:
+  # 测试，发布，通知
+  - unit-test
+  - build
+  - deploy
+  - notify
+
+angular-test:
+  # 前台使用docker来构建
+  tags:
+    - docker
+  # 设置该管道属于的步骤，同步骤的管道并行执行
+  stage: unit-test
+  image: registry.cn-beijing.aliyuncs.com/mengyunzhi/node-chrome:18.16.0
+  cache:
+    - key:
+       files:
+          - web/package-lock.json
+      paths:
+        - web/node_modules
+  before_script:
+    - cd web
+  script:
+    - env
+    - pwd
+    # 构建出错时，加入-d -dd 或 -ddd
+    - npm install -dd
+    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+    - npm run build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+spring-test:
+  # 后台使用docker来构建
+  tags:
+    - docker
+  stage: unit-test
+  image: maven:3.6-openjdk-8
+  services:
+    - name: mysql:5.7
+      alias: mysql
+      variables:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: qrcodeLanding
+      command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+  cache:
+    - key:
+        files:
+          - api/pom.xml
+      paths:
+        - /root/.m2
+        - /usr/share/maven/ref/
+  before_script:
+    - cd api
+  script:
+    - env
+    - mvn -v
+    - mvn package
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+angular-build:
+  tags:
+    - docker
+  stage: build
+  artifacts:
+    name: "dist"
+    paths:
+      - web/dist
+  cache:
+    - key:
+        files:
+          - web/package-lock.json
+      paths:
+        - web/node_modules
+  image: registry.cn-beijing.aliyuncs.com/mengyunzhi/node-chrome:18.16.0
+  before_script:
+    - cd web
+  script:
+    - env
+    - npm install -dd
+    - npm run build
+    - ls -a -l
+  rules:
+    - if: $CI_COMMIT_TAG != null
+    
+spring-build:
+  tags:
+    - docker
+  stage: build
+  image: maven:3.6-openjdk-8
+  artifacts:
+    name: "app.jar"
+    paths:
+      - api/app.jar
+  cache:
+    - key:
+        files:
+          - api/pom.xml
+      paths:
+        - api/.m2/repository
+  script:
+    - cd api
+    - env
+    - mvn -v
+    - mvn package -Dmaven.test.skip -Dmaven.repo.local=${CI_PROJECT_DIR}/api/.m2/repository
+    - mv target/*.jar app.jar
+    - ls -a ../
+    - ls -a 
+    - ls -a .m2
+    - ls -a .m2/repository
+  rules:
+    - if: $CI_COMMIT_TAG != null
+
+dingding-error:
+  stage: notify
+  tags:
+    - docker
+  image: registry.cn-beijing.aliyuncs.com/mengyunzhi/dingding:1.0.0
+  variables:
+    GIT_STRATEGY: none
+    SUCCESS: "false"
+    YZ_DING_TOKEN: "c2a28aa26b9c75099c51d504de423319ee0c6268d385be921ae66cca2ee1f24e"
+  script:
+    - env
+    - php /root/ding.php
+  when: on_failure
+
+dingding-success:
+  stage: notify
+  tags:
+    - docker
+  image: registry.cn-beijing.aliyuncs.com/mengyunzhi/dingding:1.0.0
+  variables:
+    GIT_STRATEGY: none
+    # APP_URL: ""
+    YZ_DING_TOKEN: "c2a28aa26b9c75099c51d504de423319ee0c6268d385be921ae66cca2ee1f24e"
+  script:
+    - env
+    - php /root/ding.php
+
+
