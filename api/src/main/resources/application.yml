@@ -14,9 +14,9 @@ spring:
       hibernate:
         dialect: "org.hibernate.dialect.MySQL57Dialect"
     hibernate:
-      ddl-auto: "create-drop"
+      ddl-auto: "validate"
 app:
-  url: "http://localhost:8015"
+  systemUrl: "http://localhost:8015/api/router"
 ---
 spring:
   config:
@@ -55,7 +55,7 @@ spring:
       on-profile: dev
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:create-drop}
+      ddl-auto: ${ddl-auto:update}
     show-sql: true
   flyway:
     enabled: true

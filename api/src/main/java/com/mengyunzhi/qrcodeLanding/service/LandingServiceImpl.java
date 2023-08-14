@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -47,5 +49,11 @@ public class LandingServiceImpl implements LandingService {
       return true;
     }
     return false;
+  }
+
+  @Override
+  public String getUrlByKey(String key) {
+    Assert.notNull(key, "null值错误");
+    return this.landingRepository.findByKey(key).orElseThrow(EntityNotFoundException::new).getUrl();
   }
 }

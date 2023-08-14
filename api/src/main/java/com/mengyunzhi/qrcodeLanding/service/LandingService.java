@@ -11,4 +11,6 @@ public interface LandingService {
   Landing save(Landing landing);
 
   Boolean existsByKey(String key, Long landingId);
+
+  String getUrlByKey(String key);
 }
