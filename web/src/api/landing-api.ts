@@ -37,7 +37,7 @@ export class LandingApi implements MockApiInterface {
         }
       },
       {
-        url: '/landing/keyExist/(\\d+)',
+        url: '/landing/existsByKey/(\\d+)',
         method: 'GET',
         description: 'key 唯一性验证',
         result: (urlMatches: Array<string>, options: RequestOptions) => {
@@ -45,7 +45,7 @@ export class LandingApi implements MockApiInterface {
         }
       },
       {
-        url: '/landing/keyExist/undefined',
+        url: '/landing/existsByKey/undefined',
         method: 'GET',
         description: 'key 唯一性验证',
         result: (urlMatches: Array<string>, options: RequestOptions) => {

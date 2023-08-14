@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface LandingService {
 
-  Page<Landing> page(Pageable pageable, String name);
+  Page<Landing> page(Pageable pageable, String name, String key);
 
   Landing save(Landing landing);
 

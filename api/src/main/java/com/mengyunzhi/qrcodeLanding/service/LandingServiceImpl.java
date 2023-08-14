@@ -22,8 +22,9 @@ public class LandingServiceImpl implements LandingService {
   }
 
   @Override
-  public Page<Landing> page(Pageable pageable, String name) {
-    Specification<Landing> specification = LandingSpec.containName(name);
+  public Page<Landing> page(Pageable pageable, String name, String key) {
+    Specification<Landing> specification = LandingSpec.containName(name)
+      .and(LandingSpec.containKey(key));
     return this.landingRepository.findAll(specification, pageable);
   }
 
@@ -31,6 +32,7 @@ public class LandingServiceImpl implements LandingService {
   public Landing save(Landing landing) {
     Landing newLanding = new Landing();
     newLanding.setName(landing.getName());
+    newLanding.setKey(landing.getKey());
     newLanding.setUrl(landing.getUrl());
     return this.landingRepository.save(newLanding);
   }

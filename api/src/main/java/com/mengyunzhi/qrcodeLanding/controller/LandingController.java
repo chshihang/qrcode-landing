@@ -26,27 +26,29 @@ public class LandingController {
   @GetMapping("page")
   Page<Landing> page(
     @RequestParam(value = "name", required = false) String name,
+    @RequestParam(value = "key", required = false) String key,
     @SortDefault.SortDefaults(@SortDefault(sort = "id", direction = Sort.Direction.DESC))
     Pageable pageable) {
-    return this.landingService.page(pageable, name);
+    return this.landingService.page(pageable, name, key);
   }
 
   /**
    * 添加
    */
-  @PostMapping("add")
+  @PostMapping
   Landing save(@RequestBody Landing landing) {
     return this.landingService.save(landing);
   }
 
   /**
    * key 唯一性验证
-   * @param key 保证key唯一
+   *
+   * @param key       保证key唯一
    * @param landingId 不对此id对应实体校验
    * @return 是否唯一 唯一 true; 不唯一 false
    */
-  @GetMapping("existsByKey/{landingId}")
-  Boolean existsByKey(@PathVariable Long landingId, @RequestParam String key) {
+  @GetMapping("existsByKey")
+  Boolean existsByKey(@RequestParam String key, @RequestParam(required = false) Long landingId) {
     return this.landingService.existsByKey(key, landingId);
   }
 

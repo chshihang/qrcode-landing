@@ -4,7 +4,7 @@ import { LandingComponent } from './landing.component';
 import {LandingRoutingModule} from "./landing-routing.module";
 import {YzPageModule, YzSizeModule} from "@yunzhi/ng-common";
 import { AddComponent } from './add/add.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QrcodeModule} from "../../common/qrcode/qrcode.module";
 
 
@@ -20,7 +20,8 @@ import {QrcodeModule} from "../../common/qrcode/qrcode.module";
     YzPageModule,
     YzSizeModule,
     ReactiveFormsModule,
-    QrcodeModule
+    QrcodeModule,
+    FormsModule
   ]
 })
 export class LandingModule { }

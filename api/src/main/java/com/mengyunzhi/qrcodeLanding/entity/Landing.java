@@ -1,15 +1,16 @@
 package com.mengyunzhi.qrcodeLanding.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class Landing {
 
   @Id
+  @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Long id;
 
   private String name;
@@ -17,6 +18,9 @@ public class Landing {
   @Column(name = "key_", unique = true)
   private String key;
   private String url;
+
+  @CreationTimestamp
+  private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
   public String getName() {
     return name;
@@ -46,5 +50,13 @@ public class Landing {
 
   public Long getId() {
     return id;
+  }
+
+  public Timestamp getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(Timestamp createTime) {
+    this.createTime = createTime;
   }
 }

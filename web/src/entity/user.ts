@@ -7,21 +7,18 @@ import {WeChatUser} from './we-chat-user';
 export class User {
   id: number | undefined;
   name: string | undefined;
-  phone: string | undefined;
+  username: string | undefined;
   password: string | undefined;
-  weChatUser: WeChatUser | undefined;
   constructor(data = {} as {
     id?: number
     name?: string,
-    phone?: string,
+    username?: string,
     password?: string,
-    weChatUser?: WeChatUser
   }) {
     this.id = data.id;
     this.name = data.name;
-    this.phone = data.phone;
+    this.username = data.username;
     this.password = data.password;
-    this.weChatUser = data.weChatUser;
   }
 
   getName(): string {
@@ -30,8 +27,8 @@ export class User {
   }
 
   getPhone(): string {
-    Assert.isDefined(this.phone, '不满足获取phone的前提条件');
-    return this.phone!;
+    Assert.isDefined(this.username, '不满足获取username的前提条件');
+    return this.username!;
   }
 
   getPassword(): string {

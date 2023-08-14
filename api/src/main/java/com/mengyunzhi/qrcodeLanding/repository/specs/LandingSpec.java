@@ -11,4 +11,11 @@ public class LandingSpec {
     return (root, criteriaQuery, criteriaBuilder) ->
       criteriaBuilder.like(root.get("name").as(String.class), String.format("%%%s%%", name));
   }
+  public static Specification<Landing> containKey(String key) {
+    if (key == null) {
+      return Specification.where(null);
+    }
+    return (root, criteriaQuery, criteriaBuilder) ->
+      criteriaBuilder.like(root.get("key").as(String.class), String.format("%%%s%%", key));
+  }
 }
