@@ -1,0 +1,17 @@
+<form class="row" (ngSubmit)="onSubmit()">
+  <div class="col-4 pt-5 pb-5 border" style="border-radius: 40px">
+    <div class="row">
+      <div class="col-4 text-right mt-1">系统地址</div>
+      <input class="col-5 form-control-sm" [formControl]="urlControl">
+      <small class="text-danger"
+             *ngIf="urlControl.touched && urlControl.invalid">
+        格式错误
+      </small>
+    </div>
+    <div class="row mt-4">
+      <div class="col-5 offset-4">
+        <button class="btn btn-primary" [disabled]="urlControl.invalid">保存</button>
+      </div>
+    </div>
+  </div>
+</form>

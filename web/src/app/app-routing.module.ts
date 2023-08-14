@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'landingPage',
     loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule),
+  },
+  {
+    path: 'system',
+    loadChildren: () => import('./system/system.module').then(m => m.SystemModule),
   }
 ];
 
