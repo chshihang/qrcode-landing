@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {SystemComponent} from "./system.component";
+import {SettingComponent} from "./setting.component";
 import {EditComponent} from "./edit/edit.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: SystemComponent
+    component: SettingComponent
   },
   {
     path: 'index',
-    component: SystemComponent,
+    component: SettingComponent,
   },
   {
     path: 'edit',
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SystemRoutingModule { }
+export class SettingRoutingModule { }

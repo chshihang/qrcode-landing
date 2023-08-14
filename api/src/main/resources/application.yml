@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${active:demo}
+    active: ${active:dev}
   datasource:
     #    提交机器人测试，数据库
     url: "jdbc:mysql://localhost:3311/qrcodeLanding?characterEncoding=utf-8"
@@ -15,7 +15,8 @@ spring:
         dialect: "org.hibernate.dialect.MySQL57Dialect"
     hibernate:
       ddl-auto: "create-drop"
-
+app:
+  url: "http://localhost:8015"
 ---
 spring:
   config:

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SystemService} from "../../service/system.service";
+import {SettingService} from "../../service/setting.service";
 import {Landing} from "../../entity/landing";
 import { Assert } from '../utils';
 
@@ -27,7 +27,7 @@ export class QrcodeComponent implements OnInit {
 
   @Input()
   landing: Landing;
-  constructor(private systemService: SystemService) {
+  constructor(private systemService: SettingService) {
   }
   ngOnInit() {
     Assert.isNotNullOrUndefined(this.landing, '值错误');

@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SystemComponent } from './system.component';
+import { SettingComponent } from './setting.component';
 import { EditComponent } from './edit/edit.component';
-import {SystemRoutingModule} from "./system-routing.module";
+import {SettingRoutingModule} from "./setting-routing.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 
 @NgModule({
   declarations: [
-    SystemComponent,
+    SettingComponent,
     EditComponent
   ],
   imports: [
     CommonModule,
-    SystemRoutingModule,
+    SettingRoutingModule,
     ReactiveFormsModule,
     FormsModule
   ]
 })
-export class SystemModule { }
+export class SettingModule { }

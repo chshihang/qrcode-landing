@@ -38,8 +38,8 @@ const routes: Routes = [
         }
       },
       {
-        path: 'system',
-        loadChildren: () => import('./system/system.module').then(m => m.SystemModule),
+        path: 'setting',
+        loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule),
         data: {
           title: '系统'
         }

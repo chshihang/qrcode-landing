@@ -9,16 +9,19 @@ import {UserService} from "../service/user.service";
 })
 export class AppComponent implements OnInit {
   title = 'web';
-constructor(private router: Router,
-            private userService: UserService) {
-}
+
+  constructor(private router: Router,
+              private userService: UserService) {
+  }
+
   ngOnInit(): void {
     if (this.router && this.router.url && !this.router.url.startsWith(`/login`)) {
-      this.userService.initCurrentLoginUser(() => {})
+      this.userService.initCurrentLoginUser(() => {
+      })
         .subscribe({
-        error: () =>
-          this.router.navigateByUrl('/login').then()
-      });
+          error: () =>
+            this.router.navigateByUrl('/login').then()
+        });
     }
   }
 }

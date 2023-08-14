@@ -29,7 +29,7 @@ export class CommonValidator {
 
   public static httpFormatCheck(control: AbstractControl): ValidationErrors | null {
     const result = new RegExp(control.value)
-      .exec('^http:\\/\\/[a-zA-Z0-9.-]+(:\\d+)?(\\/[^\\s]*)?(\\?[^\\s]*)?$\n');
+      .exec('^(http|https):\/\/([\w-]+\.)+[\w-]+(:\d+)?(\/\S*)?$');
     return result ? { httpFormatCheck: '地址校验失败' } : null;
   }
 }

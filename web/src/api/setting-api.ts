@@ -1,11 +1,11 @@
 import {ApiInjector, MockApiInterface} from "@yunzhi/ng-mock-api";
 import {RequestOptions} from "@yunzhi/ng-mock-api/lib/mock-api.types";
 
-export class SystemApi implements MockApiInterface {
+export class SettingApi implements MockApiInterface {
   getInjectors(): ApiInjector[] {
     return [
       {
-        url: '/system/url',
+        url: '/setting/url',
         method: 'GET',
         description: '获取系统URL',
         result: (urlMatches: Array<string>, options: RequestOptions) => {
@@ -13,7 +13,7 @@ export class SystemApi implements MockApiInterface {
         }
       },
       {
-        url: '/system',
+        url: '/setting',
         method: 'PATCH',
         description: '修改系统URL',
         result: (urlMatches: Array<string>, options: RequestOptions) => {
