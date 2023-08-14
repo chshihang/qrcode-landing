@@ -32,7 +32,7 @@
     <td>{{ landing.name }}</td>
     <td>{{ landing.key }}</td>
     <td>{{ landing.url }}</td>
-    <td>{{ landing.createTime }}</td>
+    <td>{{ landing.createTime | date: 'YYYY-MM-dd' }}</td>
     <td>
       <i class="mr-1 fa-solid fa-qrcode"></i>
       <div class="d-inline" style="cursor: pointer" (click)="onQrcodeOpen(landing)">查看</div></td>
