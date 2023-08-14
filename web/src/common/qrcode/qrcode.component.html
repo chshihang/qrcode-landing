@@ -1,0 +1,12 @@
+<yz-mask>
+  <yz-modal [width]="modalWidth">
+    <div class="qrcodeImage" *ngIf="init">
+      <qrcode [qrdata]="url" [width]="qrcodeWidth"></qrcode>
+    </div>
+    <div class="text-center">
+      <p>{{landing?.name}}: {{ url }}</p>
+      <p>{{landing?.url}}</p>
+      <button class="btn btn-primary mb-3" (click)="onClose()">关闭</button>
+    </div>
+  </yz-modal>
+</yz-mask>

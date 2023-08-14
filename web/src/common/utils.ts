@@ -1,3 +1,5 @@
+import swal from 'sweetalert2';
+
 /**
  * 公共工具类.
  */
@@ -8,20 +10,6 @@ export class Utils {
    */
   static isNotNull<T>(value: T | undefined | null): value is T {
     return isNotNullOrUndefined(value);
-  }
-
-  /**
-   * 将文件大小以B, KB等带有单位的字符串返回
-   * @param size 文件大小
-   */
-  static fileSize(size: number): string {
-    const suffix = ['B', 'KB', 'MB', 'GB', 'TB'];
-    let index = 0;
-    while (size > 1024) {
-      size = size / 1024;
-      index++;
-    }
-    return Math.floor(size).toString() + suffix[index];
   }
 
   /**
@@ -127,6 +115,15 @@ export class Assert {
     });
   }
 
+  static isDate(...args: any[]): void {
+    const message = this.validateArgs(args);
+    args.forEach(arg => {
+      if (!(arg instanceof Date)) {
+        throw new Error(message);
+      }
+    });
+  }
+
   static isObject(...args: any[]): void {
     const message = this.validateArgs(args);
     args.forEach(arg => {
@@ -173,8 +170,7 @@ export class Assert {
       throw new Error('最后一个参数必须为字符串');
     }
 
-    const message = args.pop();
-    return message;
+    return args.pop();
   }
 
   static isUndefined(param: any): void {
@@ -209,6 +205,19 @@ export class Assert {
     });
   }
 
+  /**
+   * 断言有整型（不包含NaN)
+   * @param args
+   */
+  static isInteger(...args: any[]): void {
+    const message = this.validateArgs(args);
+    args.forEach(value => {
+      if (!Number.isInteger(value)) {
+        throw new Error(message);
+      }
+    });
+  }
+
   static isNotNullOrUndefined(...args: any[]): void {
     const message = this.validateArgs(args);
     args.forEach((value, index) => {
@@ -226,7 +235,7 @@ export class Assert {
     const message = this.validateArgs(args);
     args.forEach((value, index) => {
       if (typeof value !== 'boolean' || !value) {
-        throw new Error(`${message}:${index}`);
+        Assert.throwError(`${message}:${index}`);
       }
     });
   }
@@ -251,17 +260,27 @@ export class Assert {
    * @param message 消息
    */
   private static throwError(message: string): void {
+    swal.fire({
+      titleText: '发生了一个错误',
+      text: message,
+      icon: 'error',
+      background: '#F7F8FA',
+      allowOutsideClick: false,
+      confirmButtonText: '确定',
+      confirmButtonColor: '#007BFF',
+      showCancelButton: false
+    }).then();
     throw new Error(message);
   }
 }
 
 /**
- * 当值为undefined或null时返回默认值
+ * 当输入的值无效时，返回默认值
  * @param value 传入值
  * @param defaultValue 默认值
  */
-export function getDefaultValueWhenUndefinedOrNull<T>(value: T, defaultValue: T): T {
-  if (value === undefined || value === null) {
+export function getDefaultWhenValueIsInValid<T>(value: T, defaultValue: T): T {
+  if (value === undefined || value === null || Number.isNaN(value) ) {
     return defaultValue;
   }
 
@@ -353,22 +372,6 @@ export const dateStringToTimestamp = (date: string, timezone = 'GMT+8:00'): numb
   date = date + ' ' + timezone;
   return Date.parse(date);
 };
-
-/**
- * 将时间戳转换为日期字符串，
- * @param timestamp 时间戳
- */
-export const TimestampToDateString = (timestamp: string): string => {
-  console.log('TimestampToDateString', typeof timestamp);
-  // tslint:disable-next-line:radix
-  const date = new Date(parseInt(timestamp) * 1000);
-  const y = date.getFullYear();
-  let MM: string | number = date.getMonth() + 1;
-  MM = MM < 10 ? ('0' + MM) : MM;
-  let d: string | number = date.getDate();
-  d = d < 10 ? ('0' + d) : d;
-  return y + '-' + MM + '-' + d;
-}
 
 /**
  * 在原时间戳的基础上加入N天

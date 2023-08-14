@@ -14,9 +14,9 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     if (window.sessionStorage.getItem('login') !== 'true') {
-      this.commonService.error(() => {
-        this.router.navigateByUrl('/login');
-      }, '请重新登录', '已登出');
+      // this.commonService.error(() => {
+      //   this.router.navigateByUrl('/login');
+      // }, '请重新登录', '已登出');
     }
   }
 

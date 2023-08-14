@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LandingComponent} from "./landing.component";
 import {AddComponent} from "./add/add.component";
+import {QrcodeComponent} from "../../common/qrcode/qrcode.component";
 
 const routes: Routes = [
   {

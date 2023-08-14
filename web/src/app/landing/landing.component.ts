@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LandingService} from "../../service/landing.service";
 import {Page} from "@yunzhi/ng-common";
 import {Landing} from "../../entity/landing";
-import {Assert, getDefaultWhenValueIsInValid} from "@yunzhi/utils";
+import {Assert, getDefaultWhenValueIsInValid} from "../../common/utils";
+
 import {ActivatedRoute, Router} from "@angular/router";
 import {config} from "../../conf/config";
 
@@ -18,6 +19,8 @@ export class LandingComponent implements OnInit {
     page?: number,
     size?: number
   }
+  isShowQrcode = false;
+  landing: Landing;
   constructor(private landingService: LandingService,
               private route: ActivatedRoute,
               private router: Router) {
@@ -53,8 +56,9 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  onQrcodeClick() {
-
+  onQrcodeOpen(landing: Landing) {
+    this.landing = landing;
+    this.isShowQrcode = true;
   }
 
 
@@ -77,4 +81,7 @@ export class LandingComponent implements OnInit {
     this.loadPage({page: this.queryParams.page.toString(), size: this.queryParams.size.toString()});
   }
 
+  onQrcodeClose() {
+    this.isShowQrcode = false;
+  }
 }
