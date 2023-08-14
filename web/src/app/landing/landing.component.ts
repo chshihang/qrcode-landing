@@ -6,6 +6,7 @@ import {Assert, getDefaultWhenValueIsInValid} from "../../common/utils";
 
 import {ActivatedRoute, Router} from "@angular/router";
 import {config} from "../../conf/config";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-landing',
@@ -15,32 +16,30 @@ import {config} from "../../conf/config";
 export class LandingComponent implements OnInit {
 
   pageData = new Page<Landing>();
-  queryParams = {} as {
-    page?: number,
-    size?: number
-  }
+  queryParams = {} as QueryParams;
   isShowQrcode = false;
   landing: Landing;
+  nameControl = new FormControl(null);
+  keyControl = new FormControl(null);
   constructor(private landingService: LandingService,
               private route: ActivatedRoute,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: { page?: string, size?: string }) => {
+    this.route.params.subscribe((params: QueryParams) => {
+      this.queryParams = params;
       this.loadPage(params);
     });
   }
 
-  private loadPage(params?: { page?: string, size?: string }) {
-    // 获取page\size查询参数
-    const page = +getDefaultWhenValueIsInValid(+params?.page, 0);
-    const size = +getDefaultWhenValueIsInValid(+params?.size, config.size);
-    this.queryParams.page = page;
-    this.queryParams.size = size;
-
-    this.landingService.page({page, size})
-      .subscribe(page => {
+  private loadPage(params?: QueryParams) {
+    this.landingService.page({
+      page: +params.page,
+      size: +params.size,
+      name: params.name,
+      key: params.key
+    }).subscribe(page => {
         this.validate(page);
         this.pageData = page;
       });
@@ -56,16 +55,21 @@ export class LandingComponent implements OnInit {
     });
   }
 
+
+  onFormChange() {
+    console.log('onFormChange');
+    this.reload({name: this.nameControl.value, key: this.keyControl.value});
+  }
+
   onQrcodeOpen(landing: Landing) {
     this.landing = landing;
     this.isShowQrcode = true;
   }
-
-
   onSizeChange(size: number): void {
-    this.queryParams.size = size;
-    this.reload();
+    console.log('onSizeChange', size);
+    this.reload({size: size.toString()});
   }
+
 
   /**
    * 改变每页大小
@@ -73,15 +77,23 @@ export class LandingComponent implements OnInit {
    * @constructor
    */
   onPageChange(page: number): void {
-    this.queryParams.page = page;
-    this.reload();
+    console.log('onPageChange', page);
+    this.reload({page: page.toString()});
   }
 
-  reload(): void {
-    this.loadPage({page: this.queryParams.page.toString(), size: this.queryParams.size.toString()});
+  reload(queryParams: QueryParams): void {
+    this.queryParams = {...this.queryParams, ...queryParams};
+    this.loadPage(this.queryParams);
   }
 
   onQrcodeClose() {
     this.isShowQrcode = false;
   }
+
+}
+type QueryParams = {
+  page?: string,
+  size?: string,
+  name?: string,
+  key?: string
 }

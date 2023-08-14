@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${active:dev}
+    active: ${active:demo}
   datasource:
     #    提交机器人测试，数据库
     url: "jdbc:mysql://localhost:3311/qrcodeLanding?characterEncoding=utf-8"
@@ -23,15 +23,15 @@ spring:
       on-profile: demo # 本地测试使用
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:create-drop}
-  flyway:
-    enabled: false
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
   # H2数据源,请在当前用户所有文件夹下建立h2-data文件夹，并保证其可写
   # 或者自行指定其它文件位置
   datasource:
     url: jdbc:h2:~/h2-data/qrcodeLanding-test
     driver-class-name: org.h2.Driver
-
 ---
 spring:
   config:
@@ -54,7 +54,7 @@ spring:
       on-profile: dev
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:update}
+      ddl-auto: ${ddl-auto:create-drop}
     show-sql: true
   flyway:
     enabled: true

@@ -1,22 +1,50 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {LayoutComponent} from "./part/layout/layout.component";
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    path: 'login',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
-    path: 'landingPage',
-    loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule),
-  },
-  {
-    path: 'system',
-    loadChildren: () => import('./system/system.module').then(m => m.SystemModule),
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        data: {
+          title: '首页'
+        }
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        data: {
+          title: '首页'
+        }
+      },
+      {
+        path: 'landingPage',
+        loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule),
+        data: {
+          title: '着陆页首页'
+        }
+      },
+      {
+        path: 'system',
+        loadChildren: () => import('./system/system.module').then(m => m.SystemModule),
+        data: {
+          title: '系统'
+        }
+      }
+    ]
   }
 ];
 

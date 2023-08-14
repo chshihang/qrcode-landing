@@ -1,11 +1,17 @@
 package com.mengyunzhi.qrcodeLanding.config;
 
 
+import com.mengyunzhi.qrcodeLanding.entity.User;
+import com.mengyunzhi.qrcodeLanding.filter.HeaderRequestHostFilter;
+import com.mengyunzhi.qrcodeLanding.security.myBCryptPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.session.MapSessionRepository;
 import org.springframework.session.SessionRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
@@ -15,9 +21,16 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 @EnableWebSecurity
 @EnableSpringHttpSession
 public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
+  private final BCryptPasswordEncoder passwordEncoder;
+  private final HeaderRequestHostFilter headerRequestHostFilter;
 
-  public MvcSecurityConfig() {
+  public MvcSecurityConfig(HeaderRequestHostFilter headerRequestHostFilter) {
+    this.passwordEncoder = new myBCryptPasswordEncoder();
+    this.headerRequestHostFilter = headerRequestHostFilter;
+    User.setPasswordEncoder(this.passwordEncoder);
   }
+
+
 
   /**
    * https://spring.io/guides/gs/securing-web/
@@ -28,12 +41,15 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-        .authorizeRequests()
-        .anyRequest().authenticated()
-        .and()
-        .httpBasic()
-        .and().cors()
-        .and().csrf().disable();
+      .authorizeRequests()
+      .anyRequest().authenticated()
+      .and()
+      // 添加通过header获取host信息的过滤器
+      // 过滤器执行链请参考：https://docs.spring.io/spring-security/site/docs/5.5.1/reference/html5/#servlet-security-filters
+      .addFilterBefore(this.headerRequestHostFilter, BasicAuthenticationFilter.class)
+      .httpBasic()
+      .and().cors()
+      .and().csrf().disable();
     http.headers().frameOptions().disable();
   }
 
@@ -55,5 +71,10 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public SessionRepository sessionRepository() {
     return new MapSessionRepository();
+  }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return this.passwordEncoder;
   }
 }
