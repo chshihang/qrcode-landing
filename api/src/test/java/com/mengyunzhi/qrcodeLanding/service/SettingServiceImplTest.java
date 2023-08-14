@@ -20,13 +20,11 @@ class SettingServiceImplTest {
     String url1 = "http://www.example.com:80/path/to/resource?query=parameters#fragment";
     String url2 = "https://www.example.com/path/to/resource";
     String url3 = "ftp://ftp.example.com/files";
-    String url4 = "http";
+    String url4 = "http:// ";
 
     assertTrue(this.settingServiceImpl.checkHttpUrl(url1));
     assertTrue(this.settingServiceImpl.checkHttpUrl(url2));
     assertFalse(this.settingServiceImpl.checkHttpUrl(url3));
-
-    logger.info(String.valueOf(this.settingServiceImpl.checkHttpUrl(url4)));
-
+    assertFalse(this.settingServiceImpl.checkHttpUrl(url4));
   }
 }
