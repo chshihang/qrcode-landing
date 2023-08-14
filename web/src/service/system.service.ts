@@ -12,18 +12,26 @@ export class SystemService {
   systemUrlObservable = this.systemUrlSubject.asObservable();
 
   constructor(private httpClient: HttpClient) {
-    this.setSystemUrl();
+    this.initSystemUrl();
   }
 
   getSystemUrl(): Observable<string> {
     return this.systemUrlObservable;
   }
 
-  private setSystemUrl() {
+  setSystemUrl(url: string) {
+    Assert.isString(url, '类型错误');
+    this.systemUrlSubject.next(url);
+  }
+
+  updateSystemUrl(systemUrl: string): Observable<string> {
+    return this.httpClient.patch<string>('/system', systemUrl);
+  }
+
+  private initSystemUrl() {
     this.httpClient.get<string>('/system/url')
       .subscribe(url => {
-        Assert.isString(url, '类型错误');
-        this.systemUrlSubject.next(url);
+        this.setSystemUrl(url);
       })
   }
 }

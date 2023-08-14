@@ -20,11 +20,16 @@ export class CommonValidator {
   landingUniqueKey(landingId?: number): (control: AbstractControl) => Observable<ValidationErrors | null> {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const key = control.value;
-      console.log('landingUniqueKey called');
       return CommonValidator.landingService.existsByKey(key, landingId)
         .pipe(map(data => {
           return data ? {uniqueKey: data} : null;
         }));
     };
+  }
+
+  public static httpFormatCheck(control: AbstractControl): ValidationErrors | null {
+    const result = new RegExp(control.value)
+      .exec('^http:\\/\\/[a-zA-Z0-9.-]+(:\\d+)?(\\/[^\\s]*)?(\\?[^\\s]*)?$\n');
+    return result ? { httpFormatCheck: '地址校验失败' } : null;
   }
 }
