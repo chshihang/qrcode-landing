@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {MockApiInterceptor} from "@yunzhi/ng-mock-api";
 import {LandingApi} from "./landing-api";
+import {SystemApi} from "./system-api";
 
 
 /**
@@ -12,6 +13,7 @@ import {LandingApi} from "./landing-api";
     {
       provide: HTTP_INTERCEPTORS, multi: true, useClass: MockApiInterceptor.forRoot([
         LandingApi,
+        SystemApi
       ])
     }
   ]
