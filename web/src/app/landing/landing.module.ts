@@ -6,6 +6,7 @@ import {YzPageModule, YzSizeModule} from "@yunzhi/ng-common";
 import { AddComponent } from './add/add.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {QrcodeModule} from "../../common/qrcode/qrcode.module";
+import { EditComponent } from './edit/edit.component';
 
 
 
@@ -13,6 +14,7 @@ import {QrcodeModule} from "../../common/qrcode/qrcode.module";
   declarations: [
     LandingComponent,
     AddComponent,
+    EditComponent,
   ],
   imports: [
     CommonModule,

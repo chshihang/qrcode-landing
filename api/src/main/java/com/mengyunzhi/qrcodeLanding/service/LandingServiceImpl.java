@@ -56,4 +56,24 @@ public class LandingServiceImpl implements LandingService {
     Assert.notNull(key, "null值错误");
     return this.landingRepository.findByKey(key).orElseThrow(EntityNotFoundException::new).getUrl();
   }
+
+  @Override
+  public Landing getById(Long id) {
+    Assert.notNull(id, "值错误");
+    return this.landingRepository.findById(id).get();
+  }
+
+  @Override
+  public Landing update(Long id, Landing landing) {
+    Landing oldLanding = this.landingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    oldLanding.setName(landing.getName());
+    oldLanding.setKey(landing.getKey());
+    oldLanding.setUrl(landing.getUrl());
+    return this.landingRepository.save(oldLanding);
+  }
+
+  @Override
+  public void deleteById(Long id) {
+    this.landingRepository.deleteById(id);
+  }
 }

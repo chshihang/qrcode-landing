@@ -49,4 +49,22 @@ export class LandingService {
     }
     return this.httpClient.get<boolean>(`/landing/existsByKey`, {params: httpParams});
   }
+
+  getById(id: number): Observable<Landing> {
+    Assert.isInteger(id, '类型错误');
+    return this.httpClient.get<Landing>('/landing/' + id);
+  }
+
+  update(id: number, data: {name: string, key: string, url: string}): Observable<Landing> {
+    Assert.isInteger(id, '类型错误');
+    Assert.isNotNullOrUndefined(data.name, '数据错误')
+    Assert.isNotNullOrUndefined(data.key, '数据错误')
+    Assert.isNotNullOrUndefined(data.url, '数据错误')
+    return this.httpClient.patch<Landing>('/landing/' + id, data);
+  }
+
+  deleteById(id: number): Observable<void> {
+    Assert.isInteger(id, '类型错误');
+    return this.httpClient.delete<void>('/landing/' + id);
+  }
 }

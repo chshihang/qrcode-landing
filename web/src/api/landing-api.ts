@@ -37,30 +37,46 @@ export class LandingApi implements MockApiInterface {
         }
       },
       {
-        url: '/landing/existsByKey/(\\d+)',
-        method: 'GET',
-        description: 'key 唯一性验证',
+        url: '/landing/(\\d+)',
+        method: 'DELETE',
+        description: '删除',
         result: (urlMatches: Array<string>, options: RequestOptions) => {
-          return this.keyExist(urlMatches, options)
         }
       },
       {
-        url: '/landing/existsByKey/undefined',
+        url: '/landing/existsByKey',
         method: 'GET',
         description: 'key 唯一性验证',
         result: (urlMatches: Array<string>, options: RequestOptions) => {
-          return this.keyExist(urlMatches, options)
+          // @ts-ignore
+          const key = options.params.get('key');
+          if (key == '123') {
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        url: '/landing/(\\d+)',
+        method: 'GET',
+        description: '获取landing',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
+          return {
+            id: 1,
+            name: 'landingName',
+            key: '123',
+            url: 'http://localhost:8080'
+          }
+        }
+      },
+      {
+        url: '/landing/(\\d+)',
+        method: 'PATCH',
+        description: '更新landing',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
+          return {...options.body, ...{id: urlMatches[0]}}
         }
       }
     ]
-  }
-
-  private keyExist(urlMatches: Array<string>, options: RequestOptions) {
-    // @ts-ignore
-    const key = options.params.get('key');
-    if (key == '123') {
-      return true;
-    }
-    return false;
   }
 }

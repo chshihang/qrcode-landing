@@ -39,8 +39,8 @@
       <i class="mr-1 fa-solid fa-qrcode"></i>
       <div class="d-inline" style="cursor: pointer" (click)="onQrcodeOpen(landing)">查看</div></td>
     <td>
-      <button class="mr-2 btn btn-sm btn-outline-primary"><i class="fa fas fa-pen"></i>编辑</button>
-      <button class="btn btn-sm btn-outline-danger"><i class="fa fa-solid fa-trash-can"></i>删除</button>
+      <a routerLink="./edit/{{landing.id}}" class="mr-2 btn btn-sm btn-outline-primary"><i class="fa fas fa-pen"></i>编辑</a>
+      <button (click)="onDelete(landing.id, i)" class="btn btn-sm btn-outline-danger"><i class="fa fa-solid fa-trash-can"></i>删除</button>
     </td>
   </tr>
   </tbody>
