@@ -1,5 +1,7 @@
 import {ApiInjector, MockApiInterface} from "@yunzhi/ng-mock-api";
 import {User} from "../entity/user";
+import {RequestOptions} from "@yunzhi/ng-mock-api/lib/mock-api.types";
+import {UrlMatcher} from "@angular/router";
 
 export class UserApi implements MockApiInterface{
   getOne(): User {
@@ -31,9 +33,24 @@ export class UserApi implements MockApiInterface{
       {
         url: 'user/checkPasswordIsRight',
         method: 'POST',
-        description: '请求个人信息',
-        result: () => {
-          return true;
+        description: '校验原密码',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
+          console.log('options', options, options.body);
+          return options.body.password !== 'yunzhi';
+        }
+      },
+      {
+        url: 'user/updatePassword',
+        method: 'PUT',
+        description: '更新密码',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
+        }
+      },
+      {
+        url: 'user/logout',
+        method: 'GET',
+        description: '登出',
+        result: (urlMatches: Array<string>, options: RequestOptions) => {
         }
       }
     ];

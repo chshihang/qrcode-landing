@@ -43,6 +43,13 @@ const routes: Routes = [
         data: {
           title: '系统'
         }
+      },
+      {
+        path: 'personal',
+        loadChildren: () => import('./personal/personal.module').then(m => m.PersonalModule),
+        data: {
+          title: '个人中心'
+        }
       }
     ]
   }

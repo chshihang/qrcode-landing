@@ -14,6 +14,7 @@ public class User {
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Long id;
 
+  private String name;
   /**
    * 密码加密
    */
@@ -51,5 +52,13 @@ public class User {
       throw new RuntimeException("未设置User实体的passwordEncoder，请调用set方法设置");
     }
     this.password = User.passwordEncoder.encode(password);
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

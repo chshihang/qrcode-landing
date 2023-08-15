@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@ActiveProfiles("demo")
+@ActiveProfiles("demo") // todo: 修改 run tests 激活方式
 class QrcodeLandingApplicationTests {
 
 	@Test
