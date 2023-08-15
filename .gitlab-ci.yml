@@ -85,6 +85,8 @@ angular-build:
   tags:
     - docker
   stage: build
+  rules:
+    # - if: $CI_COMMIT_TAG != null
   artifacts:
     name: "dist"
     paths:
@@ -103,13 +105,13 @@ angular-build:
     - npm install -dd
     - npm run build
     - ls -a -l
-  rules:
-    - if: $CI_COMMIT_TAG != null
     
 spring-build:
   tags:
     - docker
   stage: build
+  rules:
+    # - if: $CI_COMMIT_TAG != null
   image: maven:3.6-openjdk-8
   artifacts:
     name: "app.jar"
@@ -131,13 +133,14 @@ spring-build:
     - ls -a 
     - ls -a .m2
     - ls -a .m2/repository
-  rules:
-    - if: $CI_COMMIT_TAG != null
+
 
 deploy:
   tags:
     - debian-cd-pro
   stage: deploy
+  rules:
+    # - if: $CI_COMMIT_TAG != null
   dependencies:
     - spring-build
     - angular-build
@@ -247,8 +250,6 @@ deploy:
     - docker start ${PROJECT_NAME}-api
     - docker start ${PROJECT_NAME}-nginx
     - docker ps
-  rules:
-    - if: $CI_COMMIT_TAG != null
 
 dingding-error:
   stage: notify
