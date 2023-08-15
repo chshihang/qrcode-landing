@@ -18,7 +18,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  @Value("${app.url}")
+  @Value("${app.systemUrl}")
   String systemUrl;
 
   UserRepository userRepository;
