@@ -88,9 +88,8 @@ angular-build:
   rules:
     # - if: $CI_COMMIT_TAG != null
   artifacts:
-    name: "dist"
     paths:
-      - web/dist
+      - dist
   cache:
     - key:
         files:
@@ -104,6 +103,7 @@ angular-build:
     - env
     - npm install -dd
     - npm run build
+    - mv dist/* ../dist
     - ls -a -l
     
 spring-build:
@@ -114,9 +114,8 @@ spring-build:
     # - if: $CI_COMMIT_TAG != null
   image: maven:3.6-openjdk-8
   artifacts:
-    name: "app.jar"
     paths:
-      - api/app.jar
+      - app.jar
   cache:
     - key:
         files:
@@ -128,7 +127,7 @@ spring-build:
     - env
     - mvn -v
     - mvn package -Dmaven.test.skip -Dmaven.repo.local=${CI_PROJECT_DIR}/api/.m2/repository
-    - mv target/*.jar app.jar
+    - mv target/*.jar ../app.jar
     - ls -a ../
     - ls -a 
     - ls -a .m2
