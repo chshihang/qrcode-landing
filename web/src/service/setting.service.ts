@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, Observable, ReplaySubject} from "rxjs";
 import {Assert} from "@yunzhi/utils";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SystemService {
+export class SettingService {
 
   private systemUrlSubject = new ReplaySubject<string>(1);
   systemUrlObservable = this.systemUrlSubject.asObservable();
@@ -25,11 +25,11 @@ export class SystemService {
   }
 
   updateSystemUrl(systemUrl: string): Observable<string> {
-    return this.httpClient.patch<string>('/system', systemUrl);
+    return this.httpClient.patch<string>('/setting', {systemUrl});
   }
 
   private initSystemUrl() {
-    this.httpClient.get<string>('/system/url')
+    this.httpClient.get<string>('/setting/url')
       .subscribe(url => {
         this.setSystemUrl(url);
       })

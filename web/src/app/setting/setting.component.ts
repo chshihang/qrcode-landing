@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {SystemService} from "../../service/system.service";
+import {SettingService} from "../../service/setting.service";
 import {Assert} from "../../common/utils";
 
 @Component({
-  selector: 'app-system',
-  templateUrl: './system.component.html',
-  styleUrls: ['./system.component.scss']
+  selector: 'app-setting',
+  templateUrl: './setting.component.html',
+  styleUrls: ['./setting.component.scss']
 })
-export class SystemComponent implements OnInit {
+export class SettingComponent implements OnInit {
 
   url: string;
 
-  constructor(private systemService: SystemService) {
+  constructor(private systemService: SettingService) {
   }
 
   ngOnInit(): void {

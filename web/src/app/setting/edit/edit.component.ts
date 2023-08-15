@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SystemService} from "../../../service/system.service";
+import {SettingService} from "../../../service/setting.service";
 import {Assert} from "../../../common/utils";
 import {FormControl, Validators} from "@angular/forms";
 import {CommonValidator} from "../../../common/validators/common-validator";
@@ -15,7 +15,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class EditComponent implements OnInit {
 
 
-  constructor(private systemService: SystemService,
+  constructor(private systemService: SettingService,
               private commonService: CommonService,
               private router: Router,
               private route: ActivatedRoute) {
