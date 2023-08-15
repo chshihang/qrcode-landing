@@ -102,6 +102,7 @@ angular-build:
   script:
     - env
     - npm install -dd
+    - cp src/environments/environment.prod.ts src/environments/environment.ts
     - npm run build
     - mv dist/* ../dist
     - ls -a -l
