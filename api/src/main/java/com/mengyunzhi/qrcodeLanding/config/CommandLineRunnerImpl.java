@@ -46,6 +46,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
       //角色为系统管理员
       String password = "yunzhi";
       user.setUsername("13920618851");
+      user.setName("管理员");
       user.setPassword(password);
       this.userRepository.save(user);
     }

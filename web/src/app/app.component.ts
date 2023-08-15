@@ -17,8 +17,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.router && this.router.url && !this.router.url.startsWith(`/login`)) {
       this.userService.initCurrentLoginUser(() => {
-      })
-        .subscribe({
+      }).subscribe({
           error: () =>
             this.router.navigateByUrl('/login').then()
         });

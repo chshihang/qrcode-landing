@@ -55,7 +55,7 @@ spring:
       on-profile: dev
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:create-drop}
+      ddl-auto: ${ddl-auto:update}
     show-sql: true
   flyway:
     enabled: true
