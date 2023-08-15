@@ -17,6 +17,7 @@ variables:
   DB_MEMORY: "1G"
   API_CPUS: 1
   API_MEMORY: "2G"
+  APP_URL: "http://app.mengyunzhi.com:${HTTP_EXPORT_PORT}"
 
 
 stages:
@@ -273,7 +274,6 @@ dingding-success:
   image: registry.cn-beijing.aliyuncs.com/mengyunzhi/dingding:1.0.0
   variables:
     GIT_STRATEGY: none
-    # APP_URL: ""
   script:
     - env
     - php /root/ding.php
