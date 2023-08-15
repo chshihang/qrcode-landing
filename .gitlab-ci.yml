@@ -12,6 +12,7 @@ variables:
   DB_ROOT_PASSWORD: "yunzhi.club"
   HTTP_EXPORT_PORT: 17095
   DB_EXPORT_PORT: 17395
+  API_EXPORT_PORT: 17096
   DB_CPUS: 1
   DB_MEMORY: "1G"
   API_CPUS: 1
@@ -86,7 +87,7 @@ angular-build:
     - docker
   stage: build
   rules:
-    # - if: $CI_COMMIT_TAG != null
+    - if: $CI_COMMIT_TAG != null
   artifacts:
     paths:
       - dist
@@ -112,7 +113,7 @@ spring-build:
     - docker
   stage: build
   rules:
-    # - if: $CI_COMMIT_TAG != null
+    - if: $CI_COMMIT_TAG != null
   image: maven:3.6-openjdk-8
   artifacts:
     paths:
@@ -140,7 +141,7 @@ deploy:
     - debian-cd-pro
   stage: deploy
   rules:
-    # - if: $CI_COMMIT_TAG != null
+    - if: $CI_COMMIT_TAG != null
   dependencies:
     - spring-build
     - angular-build
@@ -238,6 +239,7 @@ deploy:
       else
         echo "create ${PROJECT_NAME}-api"
         docker create --cpus=${API_CPUS} --memory=${API_MEMORY} --name=${PROJECT_NAME}-api \
+        -p ${API_EXPORT_PORT}:8080 \
         --network=${PROJECT_NAME}-network \
         --workdir=/opt/app \
         -v /home/app/${PROJECT_NAME}:/opt/app \
