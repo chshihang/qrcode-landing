@@ -4,6 +4,7 @@ import {ApiPrefixAndMergeMapInterceptor} from "../interceptor/api-prefix-and-mer
 import {environment} from "../environments/environment";
 import {XAuthTokenInterceptor} from "../interceptor/x-auth-token.interceptor";
 import {Prevent401Popup} from "../interceptor/prevent-401-popup";
+import {HttpErrorInterceptor} from "../interceptor/http-error.interceptor";
 
 
 @NgModule({
@@ -21,6 +22,11 @@ import {Prevent401Popup} from "../interceptor/prevent-401-popup";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: Prevent401Popup,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
       multi: true
     }
   ]
