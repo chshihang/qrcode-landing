@@ -61,7 +61,7 @@ spring-test:
   script:
     - env
     - mvn -v
-    - mvn package
+    - mvn --batch-mode package
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
