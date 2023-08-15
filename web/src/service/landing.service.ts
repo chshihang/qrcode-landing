@@ -52,7 +52,7 @@ export class LandingService {
 
   getById(id: number): Observable<Landing> {
     Assert.isInteger(id, '类型错误');
-    return this.httpClient.get<Landing>('/landing/getById');
+    return this.httpClient.get<Landing>('/landing/' + id);
   }
 
   update(id: number, data: {name: string, key: string, url: string}): Observable<Landing> {

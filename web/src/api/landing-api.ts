@@ -57,7 +57,7 @@ export class LandingApi implements MockApiInterface {
         }
       },
       {
-        url: '/landing/getById',
+        url: '/landing/(\\d+)',
         method: 'GET',
         description: '获取landing',
         result: (urlMatches: Array<string>, options: RequestOptions) => {

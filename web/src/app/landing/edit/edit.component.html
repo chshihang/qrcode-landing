@@ -13,13 +13,13 @@
     <label for="{{this.formKeys.key}}" class="col-3 text-right col-form-label">key<code>*</code></label>
     <div class="col-3">
       <input type="text" class="form-control" [formControlName]="this.formKeys.key" id="{{this.formKeys.key}}">
-      <ng-container *ngIf="formGroup.get(this.formKeys.url)!.touched && formGroup.get(this.formKeys.url)!.invalid">
+      <ng-container *ngIf="formGroup.get(this.formKeys.key)!.touched && formGroup.get(this.formKeys.key)!.invalid">
         <small class="text-danger"
-               *ngIf="formGroup.get(this.formKeys.url).errors['required']">
+               *ngIf="formGroup.get(this.formKeys.key).errors['required']">
           不能为空
         </small>
         <small class="text-danger"
-               *ngIf="formGroup.get(this.formKeys.url).errors['uniqueKey']">
+               *ngIf="formGroup.get(this.formKeys.key).errors['uniqueKey']">
           key值已存在
         </small>
       </ng-container>

@@ -13,4 +13,10 @@ public interface LandingService {
   Boolean existsByKey(String key, Long landingId);
 
   String getUrlByKey(String key);
+
+  Landing getById(Long id);
+
+  Landing update(Long id, Landing landing);
+
+  void deleteById(Long id);
 }
