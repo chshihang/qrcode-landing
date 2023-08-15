@@ -42,7 +42,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
       .authorizeRequests()
-      .antMatchers("/router/**").permitAll()
+      .antMatchers("/key/**").permitAll()
       .anyRequest().authenticated()
       .and()
       // 添加通过header获取host信息的过滤器

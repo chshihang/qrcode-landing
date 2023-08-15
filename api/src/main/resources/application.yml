@@ -16,7 +16,7 @@ spring:
     hibernate:
       ddl-auto: "validate"
 app:
-  systemUrl: "http://localhost:8015/api/router"
+  systemUrl: "http://localhost:8080/key"
 ---
 spring:
   config:
