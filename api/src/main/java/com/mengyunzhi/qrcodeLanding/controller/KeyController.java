@@ -10,19 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * 提供路由服务，也可以由其他服务器提供
+ * 提供路由服务
  * 设置提供服务的服务器地址见application.yml 中 app.systemUrl
- * -----------------------------------------------------------------
- * 扫码后进入该系统需要权限
- * 如果此处使用@RequestMapping("{key}")，在MvcSecurityConfig中不方便设置权限
  */
 @RestController
-@RequestMapping("router")
-public class RouterController {
+@RequestMapping("key")
+public class KeyController {
   LandingService landingService;
 
   @Autowired
-  RouterController(LandingService landingService) {
+  KeyController(LandingService landingService) {
     this.landingService = landingService;
   }
 
