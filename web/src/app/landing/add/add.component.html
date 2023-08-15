@@ -5,7 +5,7 @@
       <input type="text" class="form-control" [formControlName]="this.formKeys.name" id="{{this.formKeys.name}}">
       <small class="text-danger"
              *ngIf="formGroup.get(this.formKeys.name)!.touched && formGroup.get(this.formKeys.name)!.invalid">
-        格式错误
+        不能为空
       </small>
     </div>
   </div>
@@ -13,20 +13,33 @@
     <label for="{{this.formKeys.key}}" class="col-3 text-right col-form-label">key<code>*</code></label>
     <div class="col-3">
       <input type="text" class="form-control" [formControlName]="this.formKeys.key" id="{{this.formKeys.key}}">
-      <small class="text-danger"
-             *ngIf="formGroup.get(this.formKeys.key)!.touched && formGroup.get(this.formKeys.key)!.invalid">
-        格式错误
-      </small>
+      <ng-container *ngIf="formGroup.get(this.formKeys.url)!.touched && formGroup.get(this.formKeys.url)!.invalid">
+        <small class="text-danger"
+               *ngIf="formGroup.get(this.formKeys.url).errors['required']">
+          不能为空
+        </small>
+        <small class="text-danger"
+               *ngIf="formGroup.get(this.formKeys.url).errors['uniqueKey']">
+          key值已存在
+        </small>
+      </ng-container>
     </div>
   </div>
+
   <div class="mb-3 row">
     <label for="{{this.formKeys.key}}" class="col-3 text-right col-form-label">跳转地址<code>*</code></label>
     <div class="col-3">
       <input type="text" class="form-control" [formControlName]="this.formKeys.url" id="{{this.formKeys.key}}">
-      <small class="text-danger"
-             *ngIf="formGroup.get(this.formKeys.url)!.touched && formGroup.get(this.formKeys.url)!.invalid">
-        格式错误
-      </small>
+      <ng-container *ngIf="formGroup.get(this.formKeys.url)!.touched && formGroup.get(this.formKeys.url)!.invalid">
+        <small class="text-danger"
+               *ngIf="formGroup.get(this.formKeys.url).errors['required']">
+          不能为空
+        </small>
+        <small class="text-danger"
+               *ngIf="formGroup.get(this.formKeys.url).errors['httpFormatCheck']">
+          地址格式错误
+        </small>
+      </ng-container>
     </div>
   </div>
   <div class="mb-3 row">

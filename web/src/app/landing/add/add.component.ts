@@ -33,7 +33,7 @@ export class AddComponent implements OnInit {
     this.formGroup.addControl(this.formKeys.key,
       new FormControl('', [Validators.required], this.commonValidator.landingUniqueKey()));
     this.formGroup.addControl(this.formKeys.url,
-      new FormControl('', [Validators.required]));
+      new FormControl('', [Validators.required, CommonValidator.httpFormatCheck]));
   }
   onSubmit() {
     // @ts-ignore
