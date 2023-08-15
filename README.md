@@ -2,6 +2,14 @@
 
 二维码落地转发
 
+
+## 打包上线
+
+直接建立tag将会自动打包上线到CD集成测试系统，在打包过程中支持重置相关容器：
+
+比如：tag名称为：`V1.0.0#resetdb#resetweb#resetapi`将重置`db web api`三个容器。
+
+
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
