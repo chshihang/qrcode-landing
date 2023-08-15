@@ -7,6 +7,7 @@ import {Assert, getDefaultWhenValueIsInValid} from "../../common/utils";
 import {ActivatedRoute, Router} from "@angular/router";
 import {config} from "../../conf/config";
 import {FormControl} from "@angular/forms";
+import {CommonService} from "../../service/common.service";
 
 @Component({
   selector: 'app-landing',
@@ -23,6 +24,7 @@ export class LandingComponent implements OnInit {
   keyControl = new FormControl(null);
   constructor(private landingService: LandingService,
               private route: ActivatedRoute,
+              private commonService: CommonService,
               private router: Router) {
   }
 
@@ -90,6 +92,19 @@ export class LandingComponent implements OnInit {
     this.isShowQrcode = false;
   }
 
+  onDelete(id: number, index: number) {
+    this.commonService.confirm((confirm: boolean) => {
+      if (confirm) {
+        this.landingService.deleteById(id).subscribe(() => {
+          this.pageData.content.splice(index, 1);
+          this.commonService.success();
+          if (this.pageData.content.length === 0) {
+            this.onPageChange(+this.queryParams.page);
+          }
+        });
+      }
+    });
+  }
 }
 type QueryParams = {
   page?: string,

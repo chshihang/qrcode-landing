@@ -194,7 +194,34 @@ export class CommonService {
       }
     });
   }
-
+  /**
+   * 是否确认提示框
+   * @param callback    回调
+   * @param description 描述
+   * @param title       标题
+   * @param confirmButtonText
+   * @param cancelButtonText
+   * @param options
+   */
+  confirm(callback?: (state?: boolean) => void, description: string = '该操作不可逆，请谨慎操作', title: string = '请确认',
+          confirmButtonText = '确定', cancelButtonText = '取消', options = {icon: 'question' as SweetAlertIcon}): void {
+    swal.fire({
+      titleText: title,
+      text: description,
+      icon: options.icon,
+      background: '#F7F8FA',
+      allowOutsideClick: false,
+      confirmButtonText,
+      confirmButtonColor: '#007BFF',
+      showCancelButton: true,
+      cancelButtonText,
+      cancelButtonColor: '#6C757D'
+    }).then((result: SweetAlertResult) => {
+      if (callback) {
+        callback(result.isConfirmed);
+      }
+    });
+  }
   /**
    * 友情提示消息框
    * @param callback    回调

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {LandingComponent} from "./landing.component";
 import {AddComponent} from "./add/add.component";
 import {QrcodeComponent} from "../../common/qrcode/qrcode.component";
+import {EditComponent} from "./edit/edit.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'add',
     component: AddComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: EditComponent,
   }
 ];
 
