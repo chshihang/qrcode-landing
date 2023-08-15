@@ -32,19 +32,21 @@
 
 - Mysql: 5.7
 
+- Maven
+
 #### 后台启动：
 
 - 配置数据库
   
   - 确保拥有docker环境
   
-  - docker 文件夹打开终端输入docker compose up -d
+  - docker 文件夹内打开终端输入docker compose up -d
 
 - 安装依赖包
   
   - IDEA右侧点击Maven => qrcodeLanding => Lifecircle => install
   
-  - 或者终端输入 mvn install
+  - 或者控制台输入 mvn install
 
 - 启动
   
