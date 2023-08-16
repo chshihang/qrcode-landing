@@ -15,6 +15,8 @@ spring:
         dialect: "org.hibernate.dialect.MySQL57Dialect"
     hibernate:
       ddl-auto: "validate"
+  flyway:
+    enabled: false
 app:
   systemUrl: "http://localhost:8080/key"
 ---
@@ -28,6 +30,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
   # H2数据源,请在当前用户所有文件夹下建立h2-data文件夹，并保证其可写
   # 或者自行指定其它文件位置
   datasource:
@@ -40,7 +44,7 @@ spring:
       on-profile: pro # 部署使用
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:update}
+      ddl-auto: ${ddl-auto:validate}
   flyway:
     enabled: true
   # 配置数据源
@@ -55,7 +59,7 @@ spring:
       on-profile: dev
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:update}
+      ddl-auto: ${ddl-auto:validate}
     show-sql: true
   flyway:
     enabled: true
