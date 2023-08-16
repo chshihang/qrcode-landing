@@ -18,6 +18,9 @@ variables:
   API_CPUS: 1
   API_MEMORY: "2G"
   APP_URL: "http://app.mengyunzhi.com:${HTTP_EXPORT_PORT}"
+  NOW: $(date +"%Y-%m-%d-%H-%M-%S")
+  WEB_DIR: "/var/www/html/${PROJECT_NAME}"
+  APP_IDR: "/home/app/${PROJECT_NAME}"
 
 
 stages:
@@ -148,25 +151,24 @@ deploy:
     - angular-build
   script:
     - ls -a -l
-    - rm -rf /var/www/html/${PROJECT_NAME}
-    - mkdir -p /var/www/html/${PROJECT_NAME}
-    - mkdir -p /home/app/${PROJECT_NAME}
-    - mkdir -p /home/app/${PROJECT_NAME}/db
-    - mkdir -p /home/app/${PROJECT_NAME}/backups
-    - rm -f /home/app/${PROJECT_NAME}/nginx.conf
-    - rm -f /home/app/${PROJECT_NAME}/app.jar
-    - rm -f /home/app/${PROJECT_NAME}/application.yml
-    - rm -rf /home/app/${PROJECT_NAME}/web
-    - cp app.jar /var/www/html/${PROJECT_NAME}/app.jar
-    - tar -cvf /var/www/html/${PROJECT_NAME}/web.tar dist/
-    - mv app.jar /home/app/${PROJECT_NAME}/app.jar
-    - mv dist /home/app/${PROJECT_NAME}/web
+    - mkdir -p ${WEB_DIR}
+    - mkdir -p ${APP_DIR}
+    - mkdir -p ${APP_DIR}/db
+    - mkdir -p ${APP_DIR}/backups
+    - rm -f ${APP_DIR}/nginx.conf
+    - rm -f ${APP_DIR}/app.jar
+    - rm -f ${APP_DIR}/application.yml
+    - rm -rf ${APP_DIR}/web
+    - cp app.jar ${WEB_DIR}/app-${NOW}.jar
+    - tar czf ${WEB_DIR}/web-${NOW}.tar.gz dist/
+    - mv app.jar ${APP_DIR}/app.jar
+    - mv dist ${APP_DIR}/web
     - sed -i "s/api-server/${PROJECT_NAME}-api/g" cd/nginx.conf
     - |
       sed "s/\$DB_PASSWORD/$DB_PASSWORD/g" cd/application.yml | sed "s/\$PROJECT_NAME/$PROJECT_NAME/g" | \
       sed "s/\$DB_NAME/$DB_NAME/g" | sed "s/\$DB_USER/$DB_USER/g" > /home/app/${PROJECT_NAME}/application.yml
     - cat cd/nginx.conf
-    - cp cd/nginx.conf /home/app/${PROJECT_NAME}/nginx.conf
+    - cp cd/nginx.conf ${APP_DIR}/nginx.conf
     - |
       if [ "$(docker ps -q -f name=${PROJECT_NAME}-api)" ]; then
             docker stop ${PROJECT_NAME}-api
@@ -186,18 +188,16 @@ deploy:
     - |
       if [[ $CI_COMMIT_TAG == *"#backdb"* ]]; then
         echo 'backup db'
-        NOW=$(date +"%Y-%m-%d-%H-%M-%S")
-        tar czf /home/app/${PROJECT_NAME}/backups/dbbackup-$NOW.tar.gz /home/app/${PROJECT_NAME}/db
+        tar czf ${APP_DIR}/backups/dbbackup-${NOW}.tar.gz ${APP_DIR}/db
       fi
     - |
       if [[ $CI_COMMIT_TAG == *"#resetdb"* ]]; then
         if [[ $CI_COMMIT_TAG != *"#backdb"* ]]; then
           echo 'backup db'
-          NOW=$(date +"%Y-%m-%d-%H-%M-%S")
-          tar czf /home/app/${PROJECT_NAME}/backups/dbbackup-$NOW.tar.gz /home/app/${PROJECT_NAME}/db
+          tar czf ${APP_DIR}/backups/dbbackup-${NOW}.tar.gz ${APP_DIR}/db
         fi
         if [ "$(docker ps -a -q -f name=${PROJECT_NAME}-db)" ]; then
-          echo 'remove db container' && docker rm ${PROJECT_NAME}-db && rm -rf /home/app/${PROJECT_NAME}/db
+          echo 'remove db container' && docker rm ${PROJECT_NAME}-db && rm -rf ${APP_DIR}/db
         fi
       fi
     - |
@@ -219,8 +219,8 @@ deploy:
         -p ${API_EXPORT_PORT}:81 \
         --cpus=1 --memory=1G --name=${PROJECT_NAME}-nginx \
         --network=${PROJECT_NAME}-network \
-        -v /home/app/${PROJECT_NAME}/web:/usr/share/nginx/html:ro \
-        -v /home/app/${PROJECT_NAME}/nginx.conf:/etc/nginx/conf.d/default.conf:ro \
+        -v ${APP_DIR}/web:/usr/share/nginx/html:ro \
+        -v ${APP_DIR}/nginx.conf:/etc/nginx/conf.d/default.conf:ro \
         nginx
       fi
     - |
@@ -234,7 +234,7 @@ deploy:
         --network=${PROJECT_NAME}-network \
         -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} -e MYSQL_DATABASE=${DB_NAME} \
         -e MYSQL_USER=${DB_USER} -e MYSQL_PASSWORD=${DB_PASSWORD} \
-        -v /home/app/${PROJECT_NAME}/db:/var/lib/mysql \
+        -v ${APP_DIR}/db:/var/lib/mysql \
         mysql:5.7 \
         --character-set-server=utf8mb4 \
         --collation-server=utf8mb4_unicode_ci
@@ -248,7 +248,7 @@ deploy:
         docker create --cpus=${API_CPUS} --memory=${API_MEMORY} --name=${PROJECT_NAME}-api \
         --network=${PROJECT_NAME}-network \
         --workdir=/opt/app \
-        -v /home/app/${PROJECT_NAME}:/opt/app \
+        -v ${APP_DIR}:/opt/app \
         adoptopenjdk/openjdk8:jre8u282-b08-debian \
         java -jar app.jar \
         --spring.config.location=/opt/app/
