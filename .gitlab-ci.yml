@@ -148,6 +148,8 @@ deploy:
     - angular-build
   script:
     - ls -a -l
+    - rm -rf /var/www/html/${PROJECT_NAME}
+    - mkdir -p /var/www/html/${PROJECT_NAME}
     - mkdir -p /home/app/${PROJECT_NAME}
     - mkdir -p /home/app/${PROJECT_NAME}/db
     - mkdir -p /home/app/${PROJECT_NAME}/backups
@@ -155,8 +157,10 @@ deploy:
     - rm -f /home/app/${PROJECT_NAME}/app.jar
     - rm -f /home/app/${PROJECT_NAME}/application.yml
     - rm -rf /home/app/${PROJECT_NAME}/web
-    - cp app.jar /home/app/${PROJECT_NAME}/app.jar
-    - cp -r dist /home/app/${PROJECT_NAME}/web
+    - cp app.jar /var/www/html/${PROJECT_NAME}/app.jar
+    - mv app.jar /home/app/${PROJECT_NAME}/app.jar
+    - tar -cvf /home/app/${PROJECT_NAME}/web.tar dist
+    - mv dist /home/app/${PROJECT_NAME}/web
     - sed -i "s/api-server/${PROJECT_NAME}-api/g" cd/nginx.conf
     - |
       sed "s/\$DB_PASSWORD/$DB_PASSWORD/g" cd/application.yml | sed "s/\$PROJECT_NAME/$PROJECT_NAME/g" | \
