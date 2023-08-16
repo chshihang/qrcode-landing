@@ -192,6 +192,7 @@ deploy:
       fi
     - |
       if [[ $CI_COMMIT_TAG == *"#resetdb"* ]]; then
+        echo 'resetdb'
         if [[ $CI_COMMIT_TAG != *"#backdb"* ]]; then
           echo 'backup db'
           tar czf ${APP_DIR}/backups/dbbackup-${NOW}.tar.gz ${APP_DIR}/db
