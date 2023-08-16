@@ -44,7 +44,7 @@ spring:
       on-profile: pro # 部署使用
   jpa:
     hibernate:
-      ddl-auto: ${ddl-auto:update}
+      ddl-auto: ${ddl-auto:validate}
   flyway:
     enabled: true
   # 配置数据源
