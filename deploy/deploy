@@ -1,0 +1,9 @@
+
+docker create -p 8015:80 -p 8014:81 --name=qrcodeLanding-nginx --network=qrcodeLanding-network -v C:/Users/chen/Desktop/project/app/web:/usr/share/nginx/html:ro -v C:/Users/chen/Desktop/project/app/nginx.conf:/etc/nginx/conf.d/default.conf:ro  nginx
+
+docker create --name=qrcodeLanding-db -p 3311:3306 --network=qrcodeLanding-network -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=qrcodeLanding -e MYSQL_USER=admin -e MYSQL_PASSWORD=admin -v C:/Users/chen/Desktop/project/app/db:/var/lib/mysql mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+docker create --name=qrcodeLanding-api --network=qrcodeLanding-network --workdir=/opt/app -v C:/Users/chen/Desktop/project/app:/opt/app adoptopenjdk/openjdk8:jre8u282-b08-debian java -jar ./app.jar --spring.config.location=/opt/app/
+
+
+docker exec -it qrcodeLanding-nginx curl qrcodeLanding-api
