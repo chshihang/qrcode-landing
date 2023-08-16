@@ -20,7 +20,7 @@ variables:
   APP_URL: "http://app.mengyunzhi.com:${HTTP_EXPORT_PORT}"
   NOW: $(date +"%Y-%m-%d-%H-%M-%S")
   WEB_DIR: "/home/www/${PROJECT_NAME}"
-  APP_IDR: "/home/app/${PROJECT_NAME}"
+  APP_DIR: "/home/app/${PROJECT_NAME}"
 
 
 stages:
