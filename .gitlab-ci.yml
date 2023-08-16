@@ -151,8 +151,8 @@ deploy:
   script:
     - NOW=$(date +"%Y-%m-%d-%H-%M-%S")
     - ls -a -l
-    - mkdir -p WEB_DIR
-    - mkdir -p APP_DIR
+    - mkdir -p ${WEB_DIR}
+    - mkdir -p ${APP_DIR}
     - mkdir -p ${APP_DIR}/db
     - mkdir -p ${APP_DIR}/backups
     - rm -f ${APP_DIR}/nginx.conf
