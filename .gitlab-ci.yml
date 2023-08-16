@@ -18,7 +18,6 @@ variables:
   API_CPUS: 1
   API_MEMORY: "2G"
   APP_URL: "http://app.mengyunzhi.com:${HTTP_EXPORT_PORT}"
-  NOW: $(date +"%Y-%m-%d-%H-%M-%S")
   WEB_DIR: "/home/www/${PROJECT_NAME}"
   APP_DIR: "/home/app/${PROJECT_NAME}"
 
@@ -150,6 +149,7 @@ deploy:
     - spring-build
     - angular-build
   script:
+    - NOW=$(date +"%Y-%m-%d-%H-%M-%S")
     - ls -a -l
     - mkdir -p WEB_DIR
     - mkdir -p APP_DIR
