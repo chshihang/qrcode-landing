@@ -19,7 +19,7 @@ variables:
   API_MEMORY: "2G"
   APP_URL: "http://app.mengyunzhi.com:${HTTP_EXPORT_PORT}"
   NOW: $(date +"%Y-%m-%d-%H-%M-%S")
-  WEB_DIR: "/var/www/html/${PROJECT_NAME}"
+  WEB_DIR: "/home/www/${PROJECT_NAME}"
   APP_IDR: "/home/app/${PROJECT_NAME}"
 
 
@@ -151,8 +151,8 @@ deploy:
     - angular-build
   script:
     - ls -a -l
-    - mkdir -p ${WEB_DIR}
-    - mkdir -p ${APP_DIR}
+    - mkdir -p WEB_DIR
+    - mkdir -p APP_DIR
     - mkdir -p ${APP_DIR}/db
     - mkdir -p ${APP_DIR}/backups
     - rm -f ${APP_DIR}/nginx.conf
