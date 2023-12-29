@@ -22,7 +22,7 @@ jobs:
           echo PR_USER=$(jq --raw-output .pull_request.user.login "$GITHUB_EVENT_PATH") >> $GITHUB_ENV
 
       # 打印环境变量
-      - name: print env
+      - name: print env 
         run: printenv
 
       - name: Set up Node.js
